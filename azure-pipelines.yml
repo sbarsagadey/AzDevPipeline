@@ -3,14 +3,17 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
+# Maven CI Pipeline
+# Builds Java project and runs tests with Maven 3.9.11 on Azure Pipelines
+
 trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-# Install Maven 3.9.11 manually
+# Step 1: Install Maven 3.9.11 manually
 - script: |
     curl -sL https://downloads.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz -o maven.tar.gz
     tar -xzf maven.tar.gz
@@ -18,9 +21,11 @@ steps:
     echo "##vso[task.setvariable variable=PATH]/opt/maven/bin:$(PATH)"
     mvn -v
   displayName: "Install Maven 3.9.11"
-  - task: Maven@3
+
+# Step 2: Build with Maven
+- task: Maven@3
+  displayName: "Build with Maven"
   inputs:
-  
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
