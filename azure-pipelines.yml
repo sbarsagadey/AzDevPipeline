@@ -34,3 +34,11 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'clean package'
+
+# Step 3: Publish build artifacts (JAR/WAR from target/)
+- task: PublishBuildArtifacts@1
+  displayName: "Publish JAR/WAR artifact"
+  inputs:
+    pathToPublish: '$(System.DefaultWorkingDirectory)/target'
+    artifactName: 'drop'
+    publishLocation: 'Container'
